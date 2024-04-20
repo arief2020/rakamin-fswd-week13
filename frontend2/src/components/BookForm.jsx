@@ -40,6 +40,14 @@ export default function BookForm({ bookData }) {
           parseInt(formData.get('year'), 10),
           parseInt(formData.get('pages'), 10)
         );
+        toast({
+          title: 'Success',
+          description: 'Book updated successfully',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate('/');
       } catch (error) {
         toast({
           title: 'Error',
