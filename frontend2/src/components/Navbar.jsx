@@ -20,7 +20,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../modules/fetch';
-import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,14 +27,12 @@ export default function Navbar() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const [authToken, setAuthToken] = useLocalStorage('token', null)
-
   useEffect(() => {
-    // const token = window.localStorage.getItem('token');
-    if (authToken) {
+    const token = window.localStorage.getItem('token');
+    if (token) {
       setIsLogin(true);
     }
-  }, [authToken]);
+  }, [window.localStorage.getItem('token')]);
 
   return (
     <Flex
@@ -69,8 +66,7 @@ export default function Navbar() {
           <Button
             colorScheme="blue"
             onClick={() => {
-              setAuthToken(null)
-              // window.localStorage.removeItem('token');
+              window.localStorage.removeItem('token');
               setIsLogin(false);
               navigate('/');
             }}
@@ -89,8 +85,7 @@ export default function Navbar() {
                 e.target.email.value,
                 e.target.password.value
               );
-              setAuthToken(token.token)
-              // window.localStorage.setItem('token', token.token);
+              window.localStorage.setItem('token', token.token);
               navigate('/');
               onClose();
             } catch (err) {
